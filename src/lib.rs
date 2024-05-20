@@ -3,7 +3,7 @@
 //! (daily, hourly, every minute) and/or size.
 
 //! Log files structures(with `log` as folder and `log.log` as prefix):
-//! - log.log.latest `(a symbol link always points to the latest one log file)`
+//! - log.log `(a symbol link always points to the latest one log file)`
 //! - log.log.yyyymmdd.hhmmss `(e.g. log.log.20240520.010101)`
 //! - ..
 
