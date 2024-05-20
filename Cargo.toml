@@ -1,6 +1,6 @@
 [package]
 name = "rolling-file-opt"
-version = "1.0.2"
+version = "1.0.3"
 authors = ["William WANG <me@lipengwang.com>"]
 edition = "2021"
 
