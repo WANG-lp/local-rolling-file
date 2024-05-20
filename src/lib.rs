@@ -217,12 +217,10 @@ where
         let files = std::fs::read_dir(&self.folder)?;
 
         let mut log_files = vec![];
-        for f in files {
-            if let Ok(f) = f {
-                let fname = f.file_name().to_string_lossy().to_string();
-                if fname.starts_with(&self.prefix) && fname != self.prefix {
-                    log_files.push(fname);
-                }
+        for f in files.flatten() {
+            let fname = f.file_name().to_string_lossy().to_string();
+            if fname.starts_with(&self.prefix) && fname != self.prefix {
+                log_files.push(fname);
             }
         }
 
@@ -281,7 +279,7 @@ where
                 if let Ok(path) = folder.canonicalize() {
                     let latest_log_symlink = path.join(&self.prefix);
                     let _ = remove_symlink_auto(folder.join(&self.prefix));
-                    let _ = symlink_auto(&new_file_path.canonicalize().unwrap(), &latest_log_symlink);
+                    let _ = symlink_auto(new_file_path.canonicalize().unwrap(), latest_log_symlink);
                 }
             }
             self.current_filesize = fs::metadata(&p).map_or(0, |m| m.len());
