@@ -267,6 +267,9 @@ where
         if self.writer_opt.is_none() {
             let p = self.new_file_name(now);
             let new_file_path = std::path::Path::new(&self.folder).join(&p);
+            if std::fs::metadata(&self.folder).is_err() {
+                std::fs::create_dir_all(&self.folder)?;
+            }
             let f = OpenOptions::new().append(true).create(true).open(&new_file_path)?;
             self.writer_opt = Some(if let Some(capacity) = self.buffer_capacity {
                 BufWriter::with_capacity(capacity, f)
