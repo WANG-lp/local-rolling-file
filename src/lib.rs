@@ -1,11 +1,12 @@
 //! A rolling file appender with customizable rolling conditions.
 //! Includes built-in support for rolling conditions on date/time
 //! (daily, hourly, every minute) and/or size.
-//!
-//! Follows a Debian-style naming convention for logfiles,
-//! using basename, basename.1, ..., basename.N where N is
-//! the maximum number of allowed historical logfiles.
-//!
+
+//! Log files structures(with `log` as folder and `log.log` as prefix):
+//! - log.log.latest `(a symbol link always points to the latest one log file)`
+//! - log.log.yyyymmdd.hhmmss `(e.g. log.log.20240520.010101)`
+//! - ..
+
 //! This is useful to combine with the tracing crate and
 //! tracing_appender::non_blocking::NonBlocking -- use it
 //! as an alternative to tracing_appender::rolling::RollingFileAppender.
@@ -108,6 +109,11 @@ impl RollingConditionBasic {
     /// Sets a condition to rollover when the date or hour changes
     pub fn hourly(mut self) -> RollingConditionBasic {
         self.frequency_opt = Some(RollingFrequency::EveryHour);
+        self
+    }
+
+    pub fn minutely(mut self) -> RollingConditionBasic {
+        self.frequency_opt = Some(RollingFrequency::EveryMinute);
         self
     }
 
@@ -273,8 +279,8 @@ where
             {
                 let folder = std::path::Path::new(&self.folder);
                 if let Ok(path) = folder.canonicalize() {
-                    let latest_log_symlink = path.join(format!("{}.latest", self.prefix));
-                    let _ = remove_symlink_auto(folder.join(format!("{}.latest", self.prefix)));
+                    let latest_log_symlink = path.join(&self.prefix);
+                    let _ = remove_symlink_auto(folder.join(&self.prefix));
                     let _ = symlink_auto(&new_file_path.canonicalize().unwrap(), &latest_log_symlink);
                 }
             }
@@ -339,7 +345,7 @@ mod t {
         let folder = "./log";
         let prefix = "log.log";
 
-        std::fs::remove_dir_all(folder).unwrap();
+        let _ = std::fs::remove_dir_all(folder);
         std::fs::create_dir(folder).unwrap();
 
         let condition = RollingConditionBasic::new().hourly();

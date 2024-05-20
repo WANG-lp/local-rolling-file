@@ -1,10 +1,7 @@
 [package]
-name = "rolling-file"
-version = "0.3.0"
-authors = [
-    "William WANG <me@lipengwang.com>",
-    "Kevin Hoffman <KevinJohnHoffman@gmail.com>",
-]
+name = "rolling-file-opt"
+version = "1.0.0"
+authors = ["William WANG <me@lipengwang.com>"]
 edition = "2021"
 
 description = "A rolling file appender with customizable rolling conditions."

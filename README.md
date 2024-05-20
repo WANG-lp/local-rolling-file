@@ -1,4 +1,6 @@
-# rolling-file
+# rolling-file-opt
+
+NOTE: this repo is based on https://github.com/Axcient/rolling-file-rs
 
 A rolling file appender with customizable rolling conditions.
 Includes built-in support for rolling conditions on date/time
