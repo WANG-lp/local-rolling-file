@@ -220,7 +220,7 @@ where
         for f in files {
             if let Ok(f) = f {
                 let fname = f.file_name().to_string_lossy().to_string();
-                if fname.starts_with(&self.prefix) && !fname.ends_with(".latest") {
+                if fname.starts_with(&self.prefix) && fname != self.prefix {
                     log_files.push(fname);
                 }
             }
@@ -367,7 +367,7 @@ mod t {
         for f in files {
             if let Ok(f) = f {
                 let fname = f.file_name().to_string_lossy().to_string();
-                if fname.starts_with(prefix) && !fname.ends_with(".latest") {
+                if fname.starts_with(prefix) && fname != "log.log" {
                     log_files.push(fname);
                 }
             }
