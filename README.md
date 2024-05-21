@@ -1,5 +1,13 @@
 # local-rolling-file
 
+[![local-rolling-file on GitHub Actions](https://github.com/WANG-lp/local-rolling-file/actions/workflows/test.yaml/badge.svg)](https://github.com/WANG-lp/local-rolling-file/actions/workflows/test.yaml)
+[![local-rolling-file on crates.io](https://img.shields.io/crates/v/local-rolling-file.svg)](https://crates.io/crates/local-rolling-file)
+[![rolling-file on docs.rs](https://docs.rs/local-rolling-file/badge.svg)](https://docs.rs/local-rolling-file)
+[![GitHub: WANG-lp/local-rolling-file](https://img.shields.io/badge/GitHub-WANG-lp%2Flocal--rolling--file--lightgrey?logo=github&style=flat-square)](https://github.com/WANG-lp/local-rolling-file)
+![license: MIT or Apache-2.0](https://img.shields.io/badge/license-MIT%20or%20Apache--2.0-red?style=flat-square)
+![minimum rustc: 1.42](https://img.shields.io/badge/minimum%20rustc-1.42-yellowgreen?logo=rust&style=flat-square)
+
+
 NOTE: this repo is based on https://github.com/Axcient/rolling-file-rs
 
 A rolling file appender with customizable rolling conditions.
