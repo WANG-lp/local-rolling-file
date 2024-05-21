@@ -1,13 +1,13 @@
 [package]
-name = "rolling-file-opt"
-version = "1.0.4"
+name = "local-rolling-file"
+version = "1.1.0"
 authors = ["William WANG <me@lipengwang.com>"]
 edition = "2021"
 
 description = "A rolling file appender with customizable rolling conditions."
-homepage = "https://github.com/WANG-lp/rolling-file-rs"
-documentation = "https://docs.rs/rolling-file/"
-repository = "https://github.com/WANG-lp/rolling-file-rs"
+homepage = "https://github.com/WANG-lp/local-rolling-file"
+documentation = "https://docs.rs/local-rolling-file/"
+repository = "https://github.com/WANG-lp/local-rolling-file"
 keywords = ["rolling", "logging", "tracing"]
 categories = ["debugging"]
 readme = "README.md"

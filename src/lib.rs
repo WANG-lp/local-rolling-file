@@ -6,6 +6,7 @@
 //! - log.log `(a symbol link always points to the latest one log file)`
 //! - log.log.yyyymmdd.hhmmss `(e.g. log.log.20240520.010101)`
 //! - ..
+//! 
 
 //! This is useful to combine with the tracing crate and
 //! tracing_appender::non_blocking::NonBlocking -- use it
@@ -15,7 +16,7 @@
 //!
 //! ```rust
 //! # fn docs() {
-//! # use rolling_file::*;
+//! # use local_rolling_file::*;
 //! let file_appender = BasicRollingFileAppender::new(
 //!     "./log",
 //!     "log.log",
@@ -73,7 +74,7 @@ impl RollingFrequency {
 /// # Examples
 ///
 /// ```rust
-/// use rolling_file::*;
+/// use local_rolling_file::*;
 /// let c = RollingConditionBasic::new().daily();
 /// let c = RollingConditionBasic::new().hourly().max_size(1024 * 1024);
 /// ```
@@ -88,7 +89,7 @@ impl RollingConditionBasic {
     /// Constructs a new struct that does not yet have any condition set.
     pub fn new() -> RollingConditionBasic {
         RollingConditionBasic {
-            last_write_opt: None,
+            last_write_opt: Some(Local::now()),
             frequency_opt: None,
             max_size_opt: None,
         }
