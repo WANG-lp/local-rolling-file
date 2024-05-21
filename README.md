@@ -1,4 +1,4 @@
-# rolling-file-opt
+# local-rolling-file
 
 NOTE: this repo is based on https://github.com/Axcient/rolling-file-rs
 
@@ -26,6 +26,48 @@ let file_appender = BasicRollingFileAppender::new(
     9
 ).unwrap();
 ```
+
+```rust
+let file_appender = local_rolling_file::RollingFileAppender::new(
+        folder,
+        "log.log",
+        local_rolling_file::RollingConditionBasic::new().daily(),
+        3,
+    )
+    .unwrap();
+    let (log_file_writer, guard) = tracing_appender::non_blocking(file_appender);
+    let local_time = tracing_subscriber::fmt::time::OffsetTime::new(
+        UtcOffset::from_hms(8, 0, 0).unwrap(),
+        format_description!("[year]-[month]-[day] [hour]:[minute]:[second].[subsecond digits:6]"),
+    );
+    let subscriber = tracing_subscriber::Registry::default()
+        .with(
+            tracing_subscriber::fmt::layer()
+                .compact()
+                .with_target(false)
+                .with_file(true)
+                .with_line_number(true)
+                .with_ansi(false)
+                .with_timer(local_time.clone())
+                .with_writer(log_file_writer)
+                .with_filter(level),
+        )
+        .with(
+            tracing_subscriber::fmt::layer()
+                .compact()
+                .with_target(false)
+                .with_file(true)
+                .with_line_number(true)
+                .with_ansi(true)
+                .with_timer(local_time)
+                .with_filter(level),
+        );
+
+    // use that subscriber to process traces emitted after this point
+    let _ = tracing::subscriber::set_global_default(subscriber);
+    tracing::info!("Logger set up successfully");
+```
+
 
 ## Development
 

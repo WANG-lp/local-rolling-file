@@ -366,12 +366,10 @@ mod t {
         rfa.flush().unwrap();
         let files = std::fs::read_dir(folder).unwrap();
         let mut log_files = vec![];
-        for f in files {
-            if let Ok(f) = f {
-                let fname = f.file_name().to_string_lossy().to_string();
-                if fname.starts_with(prefix) && fname != "log.log" {
-                    log_files.push(fname);
-                }
+        for f in files.flatten() {
+            let fname = f.file_name().to_string_lossy().to_string();
+            if fname.starts_with(prefix) && fname != "log.log" {
+                log_files.push(fname);
             }
         }
         assert_eq!(log_files.len(), max_files);
