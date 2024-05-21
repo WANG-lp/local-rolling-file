@@ -6,7 +6,7 @@
 //! - log.log `(a symbol link always points to the latest one log file)`
 //! - log.log.yyyymmdd.hhmmss `(e.g. log.log.20240520.010101)`
 //! - ..
-//! 
+//!
 
 //! This is useful to combine with the tracing crate and
 //! tracing_appender::non_blocking::NonBlocking -- use it
@@ -239,13 +239,13 @@ where
     }
 
     /// Forces a rollover to happen immediately.
-    pub fn rollover(&mut self, now: &DateTime<Local>) -> io::Result<()> {
+    pub fn rollover(&mut self) -> io::Result<()> {
         // Before closing, make sure all data is flushed successfully.
         self.flush()?;
         // We must close the current file before rotating files
         self.writer_opt.take();
         self.current_filesize = 0;
-        self.open_writer_if_needed(now)
+        Ok(())
     }
 
     /// Returns a reference to the rolling condition
@@ -295,7 +295,7 @@ where
     /// Writes data using the given datetime to calculate the rolling condition
     pub fn write_with_datetime(&mut self, buf: &[u8], now: &DateTime<Local>) -> io::Result<usize> {
         if self.condition.should_rollover(now, self.current_filesize) {
-            if let Err(e) = self.rollover(now) {
+            if let Err(e) = self.rollover() {
                 // If we can't rollover, just try to continue writing anyway
                 // (better than missing data).
                 // This will likely used to implement logging, so
